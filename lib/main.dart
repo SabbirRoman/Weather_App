@@ -21,8 +21,15 @@ class _MyAppState extends State<MyApp> {
   var currentCity;
   var temperature;
   var description;
+  late String des="";
+  var humidity;
+  var max_temp;
+  var min_temp;
+  var sunrise;
+  //var currentCity2="Enter Correct City";
   void getWeather() async
   {
+
     //print("object");
     String cityName=cityNameController.text;
     final queryparameter={
@@ -36,12 +43,32 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       currentCity= json["name"];
       temperature= json["main"]["temp"];
+      humidity=json["main"]["humidity"];
       description=json["weather"][0]["main"];
+       des=description.toString();
+       sunrise=json["sys"]["sunrise"];
+       print(DateTime.parse(sunrise.toString()));
+       print(des);
+      print(currentCity);
       print(temperature);
       print(description);
     });
   }
+   show(){
 
+    if(des=='Clear') return Colors.blue;
+     if(des=='Haze') {
+       print("ki koro bhai??");
+       return Colors.blueGrey;
+     }
+    else return Colors.white;
+  }
+
+  // show2(){
+  //   if(des==null) return Image(image: AssetImage('Haze.jpeg'));
+  //   else if(des=='Haze') return Image(image: AssetImage('Haze.jpeg'));
+  //   else return Image(image: AssetImage('Haze.jpeg'));
+  // }
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -52,7 +79,10 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
       ),
         home: Scaffold(
-          backgroundColor: Colors.white,
+            backgroundColor: show(),
+            //backgroundColor: Colors.orange,
+
+
           appBar: AppBar(
             centerTitle: true,
             title: Text("Weather App",
@@ -62,18 +92,24 @@ class _MyAppState extends State<MyApp> {
           ),
           body: Center(
 
+
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Temparature in"+(currentCity == null?"Loading":currentCity).toString()),
-                Text((temperature==null?"Loading":(temperature-273.16).toStringAsFixed(2).toString()+"\u00B0 C")),
-                Text((description==null? "Loading":description).toString()),
+
+
+                Text("Temparature in "+(currentCity == null?"CityName":currentCity).toString(),
+                style: TextStyle(
+                  fontSize: 30
+                ),),
+                Text((temperature==null?" ":(temperature-273.16).toStringAsFixed(2).toString()+"\u00B0 C /"+(((temperature*9)-2297)/5).toStringAsFixed(2).toString()+"\u00B0 F")),
+                Text((des==null? "Loading...":des)),
+                Text((humidity==null)?" ":"Humidity          "+(humidity).toString()),
                 SizedBox(
 
                   width: 200,
                   child: TextField(
                     controller: cityNameController,
-
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -83,9 +119,49 @@ class _MyAppState extends State<MyApp> {
                 ElevatedButton(
                     onPressed: getWeather,
                     child: Text("Search"),
-                )
+                ),
+
+                // Container(
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     crossAxisAlignment: CrossAxisAlignment.end,
+                //     children: const <Widget>[
+                //       SizedBox(
+                //         width: 500,
+                //         height: 100,
+                //         child: Image(image: AssetImage('Sunrise.jpeg')),
+                //       ),
+                //       SizedBox(
+                //         width: 500,
+                //         height: 100,
+                //         child: Image(image: AssetImage('Sunset.jpeg')),
+                //       ),
+                //
+                //     ],   ),
+                //
+                //
+                // ),
+                // Container(
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     crossAxisAlignment: CrossAxisAlignment.end,
+                //     children: const <Widget>[
+                //       SizedBox(
+                //         width: 500,
+                //         height: 100,
+                //         child: Image(image: AssetImage('Sunrise.jpeg')),
+                //       ),
+                //
+                //
+                //
+                //     ],   ),
+                //
+                //
+                // ),
               ],
             ),
+
+
           ) ,
         ),
     );
