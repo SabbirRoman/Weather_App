@@ -58,17 +58,17 @@ class _MyAppState extends State<MyApp> {
 
     if(des=='Clear') return Colors.blue;
      if(des=='Haze') {
-       print("ki koro bhai??");
+
        return Colors.blueGrey;
      }
     else return Colors.white;
   }
 
-  // show2(){
-  //   if(des==null) return Image(image: AssetImage('Haze.jpeg'));
-  //   else if(des=='Haze') return Image(image: AssetImage('Haze.jpeg'));
-  //   else return Image(image: AssetImage('Haze.jpeg'));
-  // }
+  show2(){
+    if(des==null) return Image(image: AssetImage('Haze.jpeg'));
+    else if(des=='Haze') return Image(image: AssetImage('Haze.jpeg'));
+    else return Image(image: AssetImage('Haze.jpeg'));
+  }
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -83,9 +83,10 @@ class _MyAppState extends State<MyApp> {
             //backgroundColor: Colors.orange,
 
 
+
           appBar: AppBar(
             centerTitle: true,
-            title: Text("Weather App",
+            title: Text("Weather Forecast",
             style: TextStyle(
               fontSize: 20
             ),),
@@ -93,16 +94,40 @@ class _MyAppState extends State<MyApp> {
           body: Center(
 
 
+
             child: Column(
+
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: const <Widget>[
+                      SizedBox(
+                        width: 500,
+                        height: 100,
+
+                        child: Image(image: AssetImage('clear.png')),
+                      ),
 
 
-                Text("Temparature in "+(currentCity == null?"CityName":currentCity).toString(),
+
+                    ],   ),
+
+
+                ),
+
+
+                Text((currentCity == null?" ":currentCity).toString(),
                 style: TextStyle(
                   fontSize: 30
                 ),),
-                Text((temperature==null?" ":(temperature-273.16).toStringAsFixed(2).toString()+"\u00B0 C /"+(((temperature*9)-2297)/5).toStringAsFixed(2).toString()+"\u00B0 F")),
+                Text((temperature==null?"Loading...":(temperature-273.16).toStringAsFixed(2).toString()+"\u00B0 C"),
+                style: TextStyle(
+                  fontSize: 40
+                ),
+                ),
                 Text((des==null? "Loading...":des)),
                 Text((humidity==null)?" ":"Humidity          "+(humidity).toString()),
                 SizedBox(
@@ -114,7 +139,7 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ),
              SizedBox(
-               height: 5,
+               height: 10,
              ),
                 ElevatedButton(
                     onPressed: getWeather,
@@ -159,6 +184,7 @@ class _MyAppState extends State<MyApp> {
                 //
                 // ),
               ],
+
             ),
 
 
